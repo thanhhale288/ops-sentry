@@ -1,0 +1,8 @@
+{
+  "retrieval_recall": 1.0,
+  "answer_pass_rate": 1.0,
+  "injection_block_rate": 1.0,
+  "n_gold": 8,
+  "n_injection": 6,
+  "note": "Regenerate with `python evals/harness.py`. Stub provider, no API key."
+}

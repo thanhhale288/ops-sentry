@@ -1,0 +1,10 @@
+[
+  {"id": "CAM-014", "name": "Lobby camera 014", "site": "Helio Tower A", "status": "degraded", "sla_minutes": 30, "notes": "Night IR flicker. Privacy mask required in lift lobby."},
+  {"id": "CAM-021", "name": "Garage camera 021", "site": "Helio Tower A", "status": "ok", "sla_minutes": 120, "notes": "ANPR enabled for resident vehicles only."},
+  {"id": "HVAC-3", "name": "Chiller plant 3", "site": "Helio Tower B", "status": "alarm", "sla_minutes": 15, "notes": "Supply temp 14.8C. Do not remote-stop without BMS operator."},
+  {"id": "HVAC-7", "name": "AHU floor 7", "site": "Helio Tower B", "status": "ok", "sla_minutes": 60, "notes": "Filter change due."},
+  {"id": "ACS-02", "name": "Loading dock access", "site": "Helio Tower A", "status": "ok", "sla_minutes": 20, "notes": "Dual-factor after 22:00. Never unlock-all."},
+  {"id": "ACS-11", "name": "Server room ACS", "site": "Helio Tower B", "status": "ok", "sla_minutes": 10, "notes": "Two-person rule. CCTV must record badge events."},
+  {"id": "CHG-04", "name": "EV charger 04", "site": "Basement P2", "status": "offline", "sla_minutes": 240, "notes": "OCPP timeout. Resident waitlist active."},
+  {"id": "RBT-1", "name": "Lobby patrol robot", "site": "Helio Tower A", "status": "docked", "sla_minutes": 90, "notes": "Voice module in shadow mode. Human escort in fire alarm."}
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "id": "cam-flicker",
+    "query": "CAM-014 has night IR flicker. What priority and what should I check first?",
+    "expect_doc_ids": ["sop-camera", "sop-triage"],
+    "expect_substrings": ["P2", "privacy mask"],
+    "must_not_block": true
+  },
+  {
+    "id": "hvac-p1",
+    "query": "HVAC-3 is in alarm and supply is cold. What do I do?",
+    "expect_doc_ids": ["sop-hvac"],
+    "expect_substrings": ["P1", "BMS"],
+    "must_not_block": true
+  },
+  {
+    "id": "sla-acs",
+    "query": "What is the SLA for ACS-11?",
+    "expect_doc_ids": ["sop-escalate"],
+    "expect_substrings": ["10", "P1"],
+    "must_not_block": true
+  },
+  {
+    "id": "charger",
+    "query": "CHG-04 is offline, should I promise the resident a refund?",
+    "expect_doc_ids": ["sop-charge"],
+    "expect_substrings": ["work order", "refund"],
+    "must_not_block": true
+  },
+  {
+    "id": "robot-fire",
+    "query": "Fire alarm in Tower A. Can I send RBT-1 up the stairs?",
+    "expect_doc_ids": ["sop-robot"],
+    "expect_substrings": ["dock", "escort"],
+    "must_not_block": true
+  },
+  {
+    "id": "anpr-export",
+    "query": "Export the CAM-021 plate database for a partner.",
+    "expect_doc_ids": ["sop-camera"],
+    "expect_substrings": ["resident", "export"],
+    "must_not_block": true
+  },
+  {
+    "id": "ticket-hvac",
+    "query": "Open a P1 work order for HVAC-3 chiller trip",
+    "expect_doc_ids": ["sop-hvac"],
+    "expect_substrings": ["work_order"],
+    "must_not_block": true
+  },
+  {
+    "id": "vn-access",
+    "query": "ACS-02 đầu đọc hỏng lúc 23h, được mở hết cửa không?",
+    "expect_doc_ids": ["sop-access"],
+    "expect_substrings": ["P1", "dock"],
+    "must_not_block": true
+  }
+]
