@@ -7,24 +7,43 @@ services:
       LLM_PROVIDER: ${LLM_PROVIDER:-stub}
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
       GEMINI_MODEL: ${GEMINI_MODEL:-gemini-2.0-flash}
+      # Literals: do not interpolate ${DATABASE_URL}/${QDRANT_URL}/${REDIS_URL} from
+      # .env — that file is for local uvicorn (sqlite, empty Qdrant/Redis URLs).
       QDRANT_URL: http://qdrant:6333
       REDIS_URL: redis://redis:6379/0
       DATABASE_URL: postgresql+psycopg://ops:ops@postgres:5432/ops_sentry
+      OPS_API_TOKEN: ${OPS_API_TOKEN:-}
+      OPS_ENV: ${OPS_ENV:-demo}
     depends_on:
       qdrant:
-        condition: service_started
+        condition: service_healthy
       redis:
-        condition: service_started
+        condition: service_healthy
       postgres:
         condition: service_healthy
   qdrant:
     image: qdrant/qdrant:v1.13.2
     ports:
       - "6333:6333"
+    healthcheck:
+      # Image is debian-slim (no curl/wget). HTTP GET /readyz via bash /dev/tcp.
+      test:
+        [
+          "CMD-SHELL",
+          "bash -c 'exec 3<>/dev/tcp/127.0.0.1/6333 && printf \"GET /readyz HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3 && timeout 2 grep -qE \"HTTP/1.[01] 200\" <&3'",
+        ]
+      interval: 3s
+      timeout: 3s
+      retries: 10
   redis:
     image: redis:7-alpine
     ports:
       - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
   postgres:
     image: postgres:16-alpine
     environment:

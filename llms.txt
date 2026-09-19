@@ -1,0 +1,17 @@
+# Ops Sentry
+
+FastAPI ops agent. Pack AGENTS.md and .cursor/rules/ops-sentry.mdc, not README.
+
+- app/main.py
+- app/agent/loop.py
+- app/agent/llm.py
+- app/agent/tools.py
+- app/safety.py
+- app/store.py
+- app/rag/retrieve.py
+- app/cache.py
+- app/auth.py
+- templates/index.html
+- data/sops/
+- data/goldset.json
+- data/denylist.json

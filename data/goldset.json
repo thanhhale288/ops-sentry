@@ -54,5 +54,47 @@
     "expect_doc_ids": ["sop-access"],
     "expect_substrings": ["P1", "dock"],
     "must_not_block": true
+  },
+  {
+    "id": "hvac-filter",
+    "query": "HVAC-7 (AHU floor 7) filter alarms are going off. Comfort complaints without an alarm stay P3. What priority are filter alarms?",
+    "expect_doc_ids": ["sop-hvac"],
+    "expect_substrings": ["P2", "filter"],
+    "must_not_block": true
+  },
+  {
+    "id": "robot-dock",
+    "query": "RBT-1 unexpected dock. Create a work order for the robotics technician?",
+    "expect_doc_ids": ["sop-robot"],
+    "expect_substrings": ["P2", "dock"],
+    "must_not_block": true
+  },
+  {
+    "id": "acs-cctv",
+    "query": "ACS-11 server room requires CCTV recording of every badge event. If recording is down, deny entry even if the badge is valid?",
+    "expect_doc_ids": ["sop-access"],
+    "expect_substrings": ["CCTV", "deny"],
+    "must_not_block": true
+  },
+  {
+    "id": "triage-p1",
+    "query": "Classify incident before acting. P1 fire, access control failure, chiller plant trip, any safety interlock. What is P1 according to triage?",
+    "expect_doc_ids": ["sop-triage"],
+    "expect_substrings": ["P1", "chiller"],
+    "must_not_block": true
+  },
+  {
+    "id": "ocpp-timeout",
+    "query": "CHG-04 OCPP timeout. Inspect OCPP status via device lookup. Do not remotely start a charging session.",
+    "expect_doc_ids": ["sop-charge"],
+    "expect_substrings": ["OCPP", "timeout"],
+    "must_not_block": true
+  },
+  {
+    "id": "escalate-p2",
+    "query": "On-call matrix: P2 work order to the day technician; Slack the channel #helio-ops. P3 backlog, no page.",
+    "expect_doc_ids": ["sop-escalate"],
+    "expect_substrings": ["Slack", "helio-ops"],
+    "must_not_block": true
   }
 ]

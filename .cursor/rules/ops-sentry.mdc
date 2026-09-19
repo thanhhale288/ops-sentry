@@ -1,0 +1,17 @@
+---
+description: Compact Ops Sentry repo map so agents skip rediscovery
+alwaysApply: true
+---
+
+Read `AGENTS.md` first. Do not dump whole files when a symbol name is enough. Tests are the contract: `.venv/bin/python -m pytest -q`; evals: `python evals/harness.py`.
+
+Ops Sentry: FastAPI ops agent for fictional Helio Devices (SOP retrieval + schema tools + regex denylist).
+
+Layout: `app/main.py`, `app/agent/loop.py`, `app/agent/llm.py`, `app/agent/tools.py`, `app/safety.py`, `app/store.py`, `app/rag/retrieve.py`, `app/rag/bm25.py`, `app/cache.py`, `app/auth.py`, `templates/index.html`, `data/sops/`, `data/goldset.json`, `data/denylist.json`.
+
+- Stub default (`LLM_PROVIDER=stub`); Gemini optional.
+- HITL: tools `create_work_order` → `pending_confirm`; confirm `POST /v1/work-orders/{id}/confirm`.
+- Safety: versioned denylist regex in `data/denylist.json`, not a classifier.
+- Auth: empty `OPS_API_TOKEN` = open demo; set token in production.
+- `.env` is gitignored. Do not commit secrets.
+- Do not add LangChain/LangGraph. Prefer existing modules over new frameworks.

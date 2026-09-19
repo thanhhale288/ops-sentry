@@ -52,7 +52,7 @@ def get_cached(query: str) -> AskResponse | None:
 
 
 def put_cached(query: str, response: AskResponse) -> None:
-    if response.blocked:
+    if response.blocked or response.needs_confirmation:
         return
     key = _key(query)
     payload = response.model_dump_json()

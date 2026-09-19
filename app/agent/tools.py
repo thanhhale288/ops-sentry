@@ -18,11 +18,18 @@ def _lookup_device(args: dict[str, Any]) -> dict[str, Any]:
     return device or {"error": "device_not_found"}
 
 
+_SEVERITIES = {"low", "medium", "high"}
+
+
 def _create_work_order(args: dict[str, Any]) -> dict[str, Any]:
+    severity = str(args.get("severity", "medium")).strip().lower()
+    if severity not in _SEVERITIES:
+        severity = "medium"
     return create_work_order(
         device_id=str(args.get("device_id", "")),
         title=str(args.get("title", "unspecified incident")),
-        severity=str(args.get("severity", "medium")),
+        severity=severity,
+        require_confirm=True,
     )
 
 

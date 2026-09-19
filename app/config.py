@@ -25,6 +25,8 @@ class Settings:
     retrieve_k: int = 5
     max_agent_steps: int = 4
     cache_ttl_seconds: int = 300
+    ops_api_token: str = _flag("OPS_API_TOKEN")
+    ops_env: str = _flag("OPS_ENV", "demo") or "demo"
 
 
 settings = Settings()
