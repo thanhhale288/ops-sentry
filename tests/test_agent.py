@@ -15,6 +15,9 @@ def test_creates_work_order_for_chiller() -> None:
     names = [a.name for a in response.actions]
     assert "create_work_order" in names
     assert "lookup_device" in names
+    assert response.needs_confirmation
+    assert response.pending_work_order_id is not None
+    assert response.audit_id is not None
 
 
 def test_sla_lookup_uses_inventory_tool() -> None:
@@ -22,3 +25,10 @@ def test_sla_lookup_uses_inventory_tool() -> None:
     assert any(a.name == "check_sla" for a in response.actions)
     dumped = str(response.model_dump())
     assert "10" in dumped
+
+
+def test_medium_work_order_still_needs_confirmation() -> None:
+    response = run_agent("Open a work order for CHG-04 OCPP timeout")
+    assert not response.blocked
+    assert response.needs_confirmation
+    assert response.pending_work_order_id is not None

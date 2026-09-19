@@ -26,6 +26,13 @@ def snapshot() -> dict:
     values = sorted(_latencies)
     p95 = values[int(0.95 * (len(values) - 1))] if values else 0
     avg = int(sum(values) / len(values)) if values else 0
+    audit_events = 0
+    try:
+        from app.store import count_audit
+
+        audit_events = count_audit()
+    except Exception:
+        audit_events = 0
     return {
         "requests": _total,
         "blocked": _blocked,
@@ -35,4 +42,5 @@ def snapshot() -> dict:
         "latency_ms_avg": avg,
         "latency_ms_p95": p95,
         "estimated_cost_usd": round(_cost, 6),
+        "audit_events": audit_events,
     }

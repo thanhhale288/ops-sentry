@@ -38,6 +38,13 @@ class AskResponse(BaseModel):
     latency_ms: int = 0
     provider: str = "stub"
     estimated_cost_usd: float = 0.0
+    needs_confirmation: bool = False
+    pending_work_order_id: int | None = None
+    audit_id: int | None = None
+
+
+class OperatorAction(BaseModel):
+    operator: str = "intern"
 
 
 class LlmDecision(BaseModel):

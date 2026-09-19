@@ -13,6 +13,11 @@ def test_retrieves_hvac_p1_sop() -> None:
     assert any(h["doc_id"] == "sop-hvac" for h in hits)
 
 
+def test_lexical_privacy_mask_lift_lobby() -> None:
+    hits = retrieve("privacy mask lift lobby")
+    assert any(h["doc_id"] == "sop-camera" for h in hits)
+
+
 def test_device_inventory_and_sla() -> None:
     device = lookup_device("acs-11")
     assert device is not None
