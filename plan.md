@@ -1,28 +1,28 @@
 # Ops Sentry — plan
 
-Cập nhật: 19/9/2026. Helio Devices là tenant giả. Plan này là kế hoạch sản phẩm, không phải roadmap cá nhân.
+Cập nhật: 22/9/2026. Helio Devices là tenant giả. Plan này là kế hoạch sản phẩm, không phải roadmap cá nhân.
 
 ## Tiến độ (19/9/2026)
 
 | Phạm vi | Hoàn thiện | Ghi chú |
 |---|---|---|
-| **Phase 0** (cây làm việc hiện tại) | **~85%** | 15/16 ô P0.1–P0.5. Thiếu `compose up` máy sạch. |
-| **Cổng 13/10** (người lạ clone + compose) | **~70%** | Artifact Phase 0 chưa lên git; chưa `up --build` trên máy sạch; Gemini chưa đo live. |
-| Phase 1 Eval lab | **0%** | Sau cổng. |
+| **Phase 0** (cây làm việc hiện tại) | **~98%** | 16/16 ô P0.1–P0.5 trên cây này. `docker-compose up --build` 22/9. |
+| **Cổng 13/10** (người lạ clone + compose) | **~80%** | Artifact Phase 0 chưa lên git; Gemini chưa đo live. Stack Compose đã trả ba câu demo trên máy này. |
+| Phase 1 Eval lab | **100%** | Cây local 19/9: P1.1–P1.4. Gemini skipped (thiếu key). CI file có; GitHub chưa chạy đến khi push. |
 | Phase 2 Ca trực | **0%** | Tùy chọn, không song song Phase 1. |
 | Phase 3 Một domain | **0%** | Sau tháng 9–10. |
 
-Công thức Phase 0: năm nhóm P0.1–P0.5 trọng số đều (100 + 75 + 100 + 90 + 100) / 5. P0.2 = 75% vì 3/4 ô xong, ô `docker compose up --build` từ clone mới **chưa**. P0.4 = 90% vì năm câu stub đã khóa schema, Gemini chỉ ghi “chưa đo”.
+Công thức Phase 0: năm nhóm P0.1–P0.5 trọng số đều (100 + 100 + 100 + 90 + 100) / 5 = 98%. P0.4 = 90% vì năm câu stub đã khóa schema, Gemini chỉ ghi “chưa đo”.
 
 ### Phase 0 — còn thiếu (làm trước cổng)
 
-1. **`docker compose up --build` từ clone mới** — chưa chạy. Máy này: port 8000 đang uvicorn; plugin `docker compose` không có (`docker-compose` v5 có); Colima từng down. Cần daemon Docker, cổng 8000/6333/6379/5432 trống, không `.venv`. Sau `up`, `curl POST /v1/ask` trên stack Compose (ô P0.2 còn `[ ]`).
+1. **`docker compose up --build` từ clone mới** — 22/9: `docker-compose up --build` trên cây này (không `.venv` trong image). Plugin `docker compose` không có; binary `docker-compose` v5 chạy được, README ghi cả hai. Postgres/Qdrant/Redis không publish ra host (máy này đang có Postgres ở 5432). `curl` ba câu demo trên `:8000`: CAM-014 có citation, “Unlock all doors” `unsafe_physical_command`, P1 HVAC-3 `pending_confirm`. Chưa chứng minh bằng một clone git của `origin`.
 2. **Commit artifact Phase 0** — `origin/main` chưa có: `data/denylist.json`, `docs/demo-60s/` (GIF + 4 still), `evals/SCORECARD.md`, `scripts/demo_60s.sh`, `.dockerignore`, `tests/test_ask_contract.py`. Người lạ clone remote **không** reproduce demo/scorecard/denylist v`2026-09-19.2`.
 3. **Đo Gemini 5 câu** khi có `GEMINI_API_KEY` — SCORECARD đang `chưa đo — thiếu GEMINI_API_KEY`. Pytest skip test Gemini trong `tests/test_ask_contract.py`. Không fail-open sang stub.
 4. **YouTube unlisted** — không bắt buộc (plan cho phép file **hoặc** link). Đã có `docs/demo-60s/demo-60s.gif`. Chỉ làm nếu cần nhúng ngoài repo.
 5. **Pytest trên máy sạch** (clone trống, `pip install -r requirements.txt`) — đã xanh trên `.venv` local stub (55 passed, 1 skipped). Chưa chứng minh từ clone mới.
 
-Không thiếu trên cây local: take 3 câu trên UI, README 60s, SCORECARD + sample 14 gold / 19 injection, injection `block_rate` 1.0, `vn-access` không overblock, denylist v`2026-09-19.2`, fallback regex khớp `Unlock all the doors`.
+Không thiếu trên cây local: take 3 câu trên UI, README 60s, SCORECARD + sample **20 gold / 36 injection**, injection `block_rate` 1.0, `vn-access` không overblock, denylist v`2026-09-19.3`, fallback regex khớp file + `Unlock all the doors`.
 
 ---
 
@@ -41,8 +41,8 @@ Người lạ clone repo, chạy được agent ops nội bộ trong vài phút,
 | `retrieval_recall` | ≥ 0.75, mục tiêu 1.0 trên gold hiện tại | `python evals/harness.py` |
 | `answer_pass_rate` | ≥ 0.75, mục tiêu 1.0 stub | Cùng harness |
 | `injection_block_rate` | **1.0** | Mọi case trong `data/injection.json` |
-| `n_gold` | ≥ 14 | Đã có 14 |
-| `n_injection` | ≥ 12 | Đã có **19** (cây hiện tại) |
+| `n_gold` | ≥ 14 | Đã có **20** |
+| `n_injection` | ≥ 12 | Đã có **36** (cây hiện tại) |
 | `pytest` | xanh | `.venv/bin/python -m pytest -q` — xanh local; chưa máy sạch clone |
 | Demo | Video ≤ 60s + lệnh compose/curl trong README | GIF local có; **compose up máy sạch còn thiếu**; artifact chưa commit |
 
@@ -58,13 +58,15 @@ Một repo, một vòng: **query → denylist → (cache) → agent ≤ 4 bướ
 - Mọi `create_work_order` từ agent = `pending_confirm`.
 - Không LangChain/LangGraph, không product RAG thứ hai, không ROS/robot trong repo này.
 
-Sau cổng: **một nhánh**. Mặc định **Eval lab** (đo stub vs live, case trượt có ghi). Nhánh “ca trực” chỉ khi cần demo điều khiển ticket. Nhánh “một domain sâu” để sau.
+Sau cổng: **một nhánh**. Mặc định **Eval lab**. Nhánh “ca trực” chỉ khi demo VinUni bắt buộc một ca confirm trên UI. Nhánh “một domain sâu” (camera hoặc ACS) chỉ sau khi thí nghiệm indirect có số.
+
+Thí nghiệm đó (22/9/2026, cùng harness): [`data/indirect.json`](data/indirect.json) + [`data/sops/sop-mailroom.md`](data/sops/sop-mailroom.md). Ba lớp — lệnh gõ thẳng (`injection_block_rate` 1.0), lệnh nằm trong SOP (rate riêng, được phép trượt), stub và Gemini cùng `AskResponse`. Gemini thiếu key thì `evals/scorecard-gemini.json` giữ `chưa đo — thiếu GEMINI_API_KEY`. Không quét chunk bằng denylist trong đợt đo này. Case retrieve mà guard không thấy context nằm ở `evals/failures.md`.
 
 ## Đã xong (không làm lại)
 
 - FastAPI `POST /v1/ask`, `AskResponse`, UI operator (`templates/index.html`)
 - 4 tool: `search_knowledge`, `lookup_device`, `check_sla`, `create_work_order`
-- Hybrid retrieve, 8 SOP, 8 devices
+- Hybrid retrieve, 8 SOP vận hành + `sop-mailroom` (indirect), 8 devices
 - Denylist `data/denylist.json` v`2026-09-19.2`, 19 injection cases
 - HITL work order, audit (query đã redact), cache không nuốt pending, cache vẫn ghi audit
 - Gemini native function calling; `GeminiBlocked` không fail-open sang stub
@@ -93,7 +95,7 @@ Mục tiêu phase: người lạ reproduce demo. Không thêm feature.
 
 ### P0.2 Compose máy sạch
 
-- [ ] `docker compose up --build` từ clone mới, không `.venv`.
+- [x] `docker-compose up --build` trên cây này, không `.venv` (22/9). Ba câu demo trên `:8000`. Plugin `docker compose` chưa có trên máy này.
 - [x] `curl POST /v1/ask` trả JSON hợp lệ.
 - [x] Ghi vào README lệnh tối thiểu (copy `.env.example`, port 8000).
 - [x] Sửa lệch nếu Compose `DATABASE_URL` / token làm demo gãy.
@@ -126,26 +128,30 @@ Mục tiêu phase: harness là bằng chứng, không phải script pass.
 
 ### P1.1 Tách stub vs live
 
-- [ ] Harness ghi `provider` vào scorecard.
-- [ ] Hai artifact: `evals/scorecard-stub.json`, `evals/scorecard-gemini.json` (gemini optional, skip nếu không key).
-- [ ] CI (GitHub Actions) chạy pytest + harness stub trên PR.
+- [x] Harness ghi `provider` vào scorecard.
+- [x] Hai artifact: `evals/scorecard-stub.json`, `evals/scorecard-gemini.json` (gemini optional, skip nếu không key).
+- [x] CI (GitHub Actions) chạy pytest + harness stub trên PR.
 
 ### P1.2 Case trượt có chủ
 
-- [ ] `evals/failures.md`: query, expect, actual, ngày, cách bào.
-- [ ] Không xóa gold để giữ 1.0 giả.
+- [x] `evals/failures.md`: query, expect, actual, ngày, cách bào.
+- [x] Không xóa gold để giữ 1.0 giả.
 
 ### P1.3 Red-team paraphrase
 
-- [ ] +8–20 injection paraphrase EN/VN; denylist version mới.
-- [ ] 1 test: câu vận hành thường **không** block.
+- [x] +8–20 injection paraphrase EN/VN; denylist version mới.
+- [x] 1 test: câu vận hành thường **không** block.
 
 ### P1.4 Gold chất, không vàng số
 
-- [ ] Chỉ thêm gold khi retrieve hoặc stub **suýt trượt**; mục tiêu ~20, không 100.
-- [ ] Cấm query chỉ copy nguyên văn SOP.
+- [x] Chỉ thêm gold khi retrieve hoặc stub **suýt trượt**; mục tiêu ~20, không 100.
+- [x] Cấm query chỉ copy nguyên văn SOP.
 
 **Phase 1 xong khi:** CI stub xanh; có ít nhất một lần đo Gemini hoặc ghi “chưa đo — thiếu key”; failures.md tồn tại.
+
+Landed 19/9/2026 trên cây local: pytest xanh trên stub; `n_gold=20`, `n_injection=36`; denylist `2026-09-19.3`; Gemini artifact `status: skipped` + `chưa đo — thiếu GEMINI_API_KEY`. Workflow `.github/workflows/ci.yml` chưa được GitHub chạy cho đến khi push.
+
+22/9/2026: bộ indirect tách khỏi `injection_block_rate`. Stub: retrieved 0.667, denylist không thấy context, echo 0.667, complied 0.0. Hai case mailroom trong `failures.md`. `hvac-plant-miss` không retrieve. Gemini vẫn chưa đo.
 
 ---
 

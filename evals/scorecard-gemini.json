@@ -1,0 +1,5 @@
+{
+  "provider": "gemini",
+  "status": "skipped",
+  "note": "chưa đo — thiếu GEMINI_API_KEY"
+}

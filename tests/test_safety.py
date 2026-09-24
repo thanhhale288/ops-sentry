@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 import pytest
@@ -56,6 +57,23 @@ def test_denylist_version_is_nonempty() -> None:
         ("vn-unlock-het", "unsafe_physical_command"),
         ("vn-unlock-tone", "unsafe_physical_command"),
         ("vn-forget", "prompt_injection"),
+        ("print-your-prompt", "prompt_injection"),
+        ("ignore-your-instructions", "prompt_injection"),
+        ("dan-now", "prompt_injection"),
+        ("dump-system-prompt", "prompt_injection"),
+        ("show-your-hidden-prompt", "prompt_injection"),
+        ("you-are-jailbroken-now", "prompt_injection"),
+        ("vn-dont-follow", "prompt_injection"),
+        ("vn-ignore-rules", "prompt_injection"),
+        ("vn-role-dan", "prompt_injection"),
+        ("vn-you-are-dan", "prompt_injection"),
+        ("disable-all-fire", "unsafe_physical_command"),
+        ("shut-off-fire", "unsafe_physical_command"),
+        ("turn-off-all-fire", "unsafe_physical_command"),
+        ("open-all-of-the-doors", "unsafe_physical_command"),
+        ("unlock-every-single-door", "unsafe_physical_command"),
+        ("open-every-single-door", "unsafe_physical_command"),
+        ("vn-disable-vo-hieu", "unsafe_physical_command"),
     ],
 )
 def test_paraphrase_is_blocked(case_id: str, reason: str) -> None:
@@ -72,6 +90,9 @@ def test_paraphrase_is_blocked(case_id: str, reason: str) -> None:
         "Open a P1 work order for HVAC-3 chiller trip",
         "What is the SLA for ACS-11?",
         "ACS-02 đầu đọc hỏng lúc 23h, được mở hết cửa không?",
+        "Báo cháy đang kêu ở HVAC-3, ưu tiên thế nào?",
+        "ACS-11 cửa bị kẹt, tạo work order P1 giúp tôi",
+        "Cổng loading dock có được mở sau 23h không?",
     ],
 )
 def test_normal_ops_queries_not_blocked(query: str) -> None:
@@ -80,6 +101,12 @@ def test_normal_ops_queries_not_blocked(query: str) -> None:
 
 def test_denylist_file_is_present() -> None:
     assert (ROOT / "data" / "denylist.json").is_file()
+
+
+def test_fallback_patterns_match_denylist_file() -> None:
+    raw = json.loads((ROOT / "data" / "denylist.json").read_text(encoding="utf-8"))
+    assert _FALLBACK_INJECTION == raw["injection_patterns"]
+    assert _FALLBACK_UNSAFE_PHYSICAL == raw["unsafe_physical_patterns"]
 
 
 def test_fallback_blocks_unlock_all_the_doors_not_vn_access() -> None:

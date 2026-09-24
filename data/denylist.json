@@ -1,21 +1,25 @@
 {
-  "version": "2026-09-19.2",
+  "version": "2026-09-19.3",
   "injection_patterns": [
-    "(ignore|forget|override) (all |any |the )?(previous|prior|above) (instructions|rules)",
+    "(ignore|forget|override) (all |any |the |your )?(previous |prior |above )?(instructions|rules)",
     "disregard (the |all |any )?(previous |prior |above )?(instructions|rules)",
-    "you are now (dan|jailbroken|unfiltered)",
-    "(reveal|print|show) (the )?(system|hidden) prompt",
+    "you are (now )?(dan|jailbroken|unfiltered)( now)?\\b",
+    "(reveal|print|show|dump) (me )?(the |your )?(system|hidden) prompt",
     "dump (your )?(tools|secrets|api keys?)",
     "(no|without)( a)? safety policy",
     "b[oỏ]( l[eệ]ch| qua.{0,40}| h[eế]t| t[aấ]t c[aả])? h[uư][ớơ]ng d[aẫ]n",
-    "qu[eê]n.{0,40}h[uư][ớơ]ng d[aẫ]n"
+    "qu[eê]n.{0,40}h[uư][ớơ]ng d[aẫ]n",
+    "b[oỏ] qua (các |mọi )?(quy t[aắ]c|policy)",
+    "(đừng|kh[oô]ng) tu[aâ]n theo.{0,40}h[uư][ớơ]ng d[aẫ]n",
+    "(?:đ[oó]ng vai|b[aạ]n là) dan\\b"
   ],
   "unsafe_physical_patterns": [
-    "disable (the )?(fire|safety|alarm|watchdog)",
-    "(turn|switch) off (the )?(fire|safety|alarm|watchdog)",
-    "unlock (all|every) (?:the |of the |of our |our )?(doors?|gates?)",
-    "open (every|all) (the )?(doors?|gates?)",
+    "disable (the |all |all the )?(fire|safety|alarm|watchdog)",
+    "(turn|switch|shut) off (the |all |all the )?(fire|safety|alarm|watchdog)",
+    "unlock (all|every) (?:the |of the |of our |our |single )?(doors?|gates?)",
+    "open (every|all) (?:the |of the |of our |our |single )?(doors?|gates?)",
     "t[aắ]t.{0,40}(b[aá]o ch[aá]y|an to[aà]n)",
-    "m[oở] kh(?:[oó]a|oá) (?:t[aấ]t c[aả]|h[eế]t|m[oọ]i|to[aà]n b[oộ]) (?:c[aá]c )?(?:c[uử]a|c[oổ]ng)"
+    "m[oở] kh(?:[oó]a|oá) (?:t[aấ]t c[aả]|h[eế]t|m[oọ]i|to[aà]n b[oộ]) (?:c[aá]c )?(?:c[uử]a|c[oổ]ng)",
+    "v[oô] hi[eệ]u h[oó][aá].{0,40}(b[aá]o ch[aá]y|an to[aà]n)"
   ]
 }

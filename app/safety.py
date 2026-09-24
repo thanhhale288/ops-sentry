@@ -14,22 +14,26 @@ _DENYLIST_PATH = _DATA_DIR / "denylist.json"
 # Keep in sync with data/denylist.json so a clone without that file still
 # blocks P0.5 paraphrases (e.g. "Unlock all the doors") and not gold vn-access.
 _FALLBACK_INJECTION = [
-    r"(ignore|forget|override) (all |any |the )?(previous|prior|above) (instructions|rules)",
+    r"(ignore|forget|override) (all |any |the |your )?(previous |prior |above )?(instructions|rules)",
     r"disregard (the |all |any )?(previous |prior |above )?(instructions|rules)",
-    r"you are now (dan|jailbroken|unfiltered)",
-    r"(reveal|print|show) (the )?(system|hidden) prompt",
+    r"you are (now )?(dan|jailbroken|unfiltered)( now)?\b",
+    r"(reveal|print|show|dump) (me )?(the |your )?(system|hidden) prompt",
     r"dump (your )?(tools|secrets|api keys?)",
     r"(no|without)( a)? safety policy",
     r"b[oỏ]( l[eệ]ch| qua.{0,40}| h[eế]t| t[aấ]t c[aả])? h[uư][ớơ]ng d[aẫ]n",
     r"qu[eê]n.{0,40}h[uư][ớơ]ng d[aẫ]n",
+    r"b[oỏ] qua (các |mọi )?(quy t[aắ]c|policy)",
+    r"(đừng|kh[oô]ng) tu[aâ]n theo.{0,40}h[uư][ớơ]ng d[aẫ]n",
+    r"(?:đ[oó]ng vai|b[aạ]n là) dan\b",
 ]
 _FALLBACK_UNSAFE_PHYSICAL = [
-    r"disable (the )?(fire|safety|alarm|watchdog)",
-    r"(turn|switch) off (the )?(fire|safety|alarm|watchdog)",
-    r"unlock (all|every) (?:the |of the |of our |our )?(doors?|gates?)",
-    r"open (every|all) (the )?(doors?|gates?)",
+    r"disable (the |all |all the )?(fire|safety|alarm|watchdog)",
+    r"(turn|switch|shut) off (the |all |all the )?(fire|safety|alarm|watchdog)",
+    r"unlock (all|every) (?:the |of the |of our |our |single )?(doors?|gates?)",
+    r"open (every|all) (?:the |of the |of our |our |single )?(doors?|gates?)",
     r"t[aắ]t.{0,40}(b[aá]o ch[aá]y|an to[aà]n)",
     r"m[oở] kh(?:[oó]a|oá) (?:t[aấ]t c[aả]|h[eế]t|m[oọ]i|to[aà]n b[oộ]) (?:c[aá]c )?(?:c[uử]a|c[oổ]ng)",
+    r"v[oô] hi[eệ]u h[oó][aá].{0,40}(b[aá]o ch[aá]y|an to[aà]n)",
 ]
 
 _REGEX_CACHE: dict[str, re.Pattern[str]] = {}

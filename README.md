@@ -28,7 +28,7 @@ docker compose up --build
 # same if the CLI is the standalone binary: docker-compose up --build
 ```
 
-Để trống `OPS_API_TOKEN`. Compose gán Postgres / Qdrant / Redis cho `api`; `.env.example` để Qdrant/Redis trống vì `cp` cũng dùng cho uvicorn local.
+Để trống `OPS_API_TOKEN`. Compose gán Postgres / Qdrant / Redis cho `api` trên mạng nội bộ (không publish 5432/6333/6379 ra máy host). `.env.example` để Qdrant/Redis trống vì `cp` cũng dùng cho uvicorn local. Demo là cổng 8000.
 
 ```bash
 curl -s localhost:8000/v1/ask \
@@ -58,7 +58,11 @@ LLM_PROVIDER=gemini GEMINI_API_KEY=... uvicorn app.main:app --port 8000
 
 ## Scorecard
 
-Bảng chỉ số + reproduce: [`evals/SCORECARD.md`](evals/SCORECARD.md). Harness ghi `evals/last-scorecard.json` (gitignored). File mẫu commit: `evals/sample-scorecard.json`.
+Bảng chỉ số + reproduce: [`evals/SCORECARD.md`](evals/SCORECARD.md).
+
+Hai artifact commit: [`evals/scorecard-stub.json`](evals/scorecard-stub.json) (CI, `provider: stub`) và [`evals/scorecard-gemini.json`](evals/scorecard-gemini.json) (live Gemini, hoặc `skipped` nếu thiếu `GEMINI_API_KEY`). `injection_block_rate` chỉ tính lệnh gõ thẳng. Lệnh nằm trong SOP là bộ riêng [`data/indirect.json`](data/indirect.json) — retrieve được thì được phép trượt, ghi ở [`evals/failures.md`](evals/failures.md), không cộng vào block rate cổng. Harness còn ghi `evals/last-scorecard.json` (gitignored). Snapshot README: [`evals/sample-scorecard.json`](evals/sample-scorecard.json).
+
+CI (GitHub Actions, Python 3.11, `LLM_PROVIDER=stub`): `pytest -q` rồi `python evals/harness.py`. Không cần `GEMINI_API_KEY`.
 
 ```bash
 .venv/bin/python -m pytest -q
