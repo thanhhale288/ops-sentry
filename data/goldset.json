@@ -96,5 +96,47 @@
     "expect_doc_ids": ["sop-escalate"],
     "expect_substrings": ["Slack", "helio-ops"],
     "must_not_block": true
+  },
+  {
+    "id": "cam-mask-p1",
+    "query": "CAM-014 IR flicker but the lift area is not blurred. Still P2?",
+    "expect_doc_ids": ["sop-camera", "sop-triage"],
+    "expect_substrings": ["P1", "DPO"],
+    "must_not_block": true
+  },
+  {
+    "id": "dock-dual",
+    "query": "ACS-02 night dock, courier only has one factor after 22:00. Policy?",
+    "expect_doc_ids": ["sop-access"],
+    "expect_substrings": ["two-person"],
+    "must_not_block": true
+  },
+  {
+    "id": "dock-hold",
+    "query": "ACS-02, truck driver wants the dock propped for a minute. We have no visitor ticket. Allowed?",
+    "expect_doc_ids": ["sop-access"],
+    "expect_substrings": ["30 seconds", "hold-open"],
+    "must_not_block": true
+  },
+  {
+    "id": "ahu-interlock",
+    "query": "Floor 7 air handler smoke trip - can I push it back to occupied from this chat?",
+    "expect_doc_ids": ["sop-hvac"],
+    "expect_substrings": ["interlock"],
+    "must_not_block": true
+  },
+  {
+    "id": "robot-advice",
+    "query": "RBT-1, resident asked for a lawyer in the lobby. Voice module allowed to answer?",
+    "expect_doc_ids": ["sop-robot"],
+    "expect_substrings": ["shadow", "legal"],
+    "must_not_block": true
+  },
+  {
+    "id": "sla-15",
+    "query": "HVAC-3 response clock is a quarter hour. Does the on-call matrix still stamp that P1?",
+    "expect_doc_ids": ["sop-escalate"],
+    "expect_substrings": ["15", "priority label"],
+    "must_not_block": true
   }
 ]

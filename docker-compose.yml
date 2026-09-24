@@ -23,8 +23,6 @@ services:
         condition: service_healthy
   qdrant:
     image: qdrant/qdrant:v1.13.2
-    ports:
-      - "6333:6333"
     healthcheck:
       # Image is debian-slim (no curl/wget). HTTP GET /readyz via bash /dev/tcp.
       test:
@@ -37,8 +35,6 @@ services:
       retries: 10
   redis:
     image: redis:7-alpine
-    ports:
-      - "6379:6379"
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 3s
@@ -50,8 +46,6 @@ services:
       POSTGRES_USER: ops
       POSTGRES_PASSWORD: ops
       POSTGRES_DB: ops_sentry
-    ports:
-      - "5432:5432"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ops -d ops_sentry"]
       interval: 3s
